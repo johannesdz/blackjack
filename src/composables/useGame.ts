@@ -61,7 +61,9 @@ export function useGame() {
       await (nextHand as Hand).action();
       next();
     } else if (!waitForInteraction) {
-      setHelpInfo(null, true);
+      if (isHelpOpenRef.value) {
+        setHelpInfo(null, true);
+      }
       await gameRef.value.playDealer();
       await gameRef.value.setIsFinished();
       init();
