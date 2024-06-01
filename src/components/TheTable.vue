@@ -69,10 +69,6 @@ onMounted(() => {
 
 <style scoped>
 .wrapper {
-  width: 400px;
-  min-width: 400px;
-  margin: 10px auto;
-  padding: 0;
   background: radial-gradient(#16892b, #1c5928);
   border-radius: 10px;
   color: #000;
@@ -155,10 +151,7 @@ onMounted(() => {
 }
 
 .info {
-  width: 380px;
-  min-width: 380px;
-  margin: 10px auto;
-  padding: 0;
+  margin-top: 10px;
   background: #fff;
   border-radius: 10px;
   padding: 20px 10px;
