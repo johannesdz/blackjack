@@ -4,7 +4,7 @@ import type { Hand } from '@/models/game';
 import type { PlayerAction } from '@/types/types';
 import { PLAYER_ACTIONS } from '@/utils/constants';
 import { useGame } from '@/composables/useGame';
-const { next, dealerFinalValueRef } = useGame();
+const { next, dealerFinalValueRef, setHelpInfo, currentHelpInfoHandRef } = useGame();
 
 const props = defineProps({
   hand: {
@@ -20,6 +20,10 @@ const props = defineProps({
 function handleAction(action: PlayerAction) {
   props.hand.setNextAction(action);
   next();
+}
+
+function handleHelpClick() {
+  setHelpInfo(props.hand, true);
 }
 
 const resultMessages = {
@@ -106,6 +110,17 @@ const actions = [
       >
         {{ action.label }}
       </button>
+      <button
+        :class="[
+          'action action--help',
+          {
+            'action--help-active': currentHelpInfoHandRef === hand,
+          },
+        ]"
+        @click="handleHelpClick"
+      >
+        ?
+      </button>
     </div>
   </div>
 </template>
@@ -173,6 +188,8 @@ const actions = [
   left: 0;
   right: 0;
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 4px;
   margin-left: -4px;
@@ -201,6 +218,10 @@ const actions = [
   cursor: pointer;
   border: 0 none;
   box-shadow: 1px 1px 2px #111;
+}
+
+.action--help-active {
+  opacity: 0.5;
 }
 
 .action--alert {

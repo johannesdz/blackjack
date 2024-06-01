@@ -413,20 +413,26 @@ export class Hand {
     await sleep();
   }
 
-  calculateNextCorrectAction(dealerHardValue: any) {
+  calculateNextCorrectActionRule() {
     if (this.isSplitAllowed()) {
-      // @ts-ignore
-      return RULES.PAIR[dealerHardValue]?.[this.getCards()[0].getHardValue()];
+      return 'PAIR';
     }
     if (this.getValue() !== this.getCardsHardValue()) {
-      // @ts-ignore
-      return RULES.SOFT[dealerHardValue]?.[this.getValue()];
+      return 'SOFT';
     }
-    if (this.getValue() > 16) {
-      return PLAYER_ACTIONS.STAND;
+    return 'HARD';
+  }
+
+  calculateNextCorrectActionPlayerValue() {
+    const rule = this.calculateNextCorrectActionRule();
+    if (rule === 'PAIR') {
+      return this.getCards()[0].getHardValue();
     }
-    // @ts-ignore
-    return RULES.HARD[dealerHardValue]?.[this.getValue()];
+    return this.getValue();
+  }
+
+  calculateNextCorrectAction(dealerHardValue: any) {
+    return RULES.HARD[dealerHardValue]?.[this.calculateNextCorrectActionPlayerValue()];
   }
 
   async calculateCorrectAction(dealerHardValue: number) {
