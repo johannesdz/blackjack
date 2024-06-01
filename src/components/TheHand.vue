@@ -39,7 +39,12 @@ const resultMessages = {
   >
     <div class="cards">
       <div v-for="(card, i) in hand.getCards()" :key="i" class="card">
-        <img v-if="card.getIsVisible()" class="card__image" :src="`/svg/${card.getSvg()}.svg`" />
+        <img
+          v-if="card.getIsVisible()"
+          class="card__image"
+          :data-src="`/svg/${card.getSvg()}.svg`"
+          :src="`/svg/${card.getSvg()}.svg`"
+        />
       </div>
     </div>
     <div class="sum">{{ hand.getDisplayValue() }}</div>
