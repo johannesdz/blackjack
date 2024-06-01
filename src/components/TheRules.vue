@@ -95,12 +95,12 @@ function handleCloseClick() {
   margin-top: 10px;
   background: #fff;
   border-radius: 10px;
-  padding: 20px 10px;
+  padding: 10px 0px;
   color: #333;
   position: fixed;
   z-index: 10;
   overflow: auto;
-
+  padding: 10px 10px;
   max-width: 410px;
   min-width: 320px;
   width: 100%;
@@ -152,6 +152,21 @@ function handleCloseClick() {
 
   .rules__close-wrapper {
     top: 10px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .rules {
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: none;
+    padding: 0;
+  }
+
+  .rules__close-wrapper {
+    width: 100%;
+    max-width: none;
   }
 }
 

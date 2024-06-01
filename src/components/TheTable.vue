@@ -63,7 +63,7 @@ function handleBoxClick(index: number) {
 }
 
 .dealer {
-  flex-basis: 25%;
+  flex-basis: 20%;
   display: flex;
   justify-content: center;
   align-items: end;
@@ -103,7 +103,7 @@ function handleBoxClick(index: number) {
 }
 
 .players {
-  flex-basis: 40%;
+  flex-basis: 45%;
   display: flex;
   flex-direction: row-reverse;
   justify-content: center;

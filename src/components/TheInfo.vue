@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useGame } from '@/composables/useGame';
-const { next, dealerFinalValueRef, setHelpInfo, currentHelpInfoHandRef } = useGame();
+const { setHelpInfo } = useGame();
 
 function handleChartClick() {
   setHelpInfo(null, true);
