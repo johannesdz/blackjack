@@ -3,11 +3,15 @@ import { onMounted } from 'vue';
 import { useGame } from '@/composables/game';
 import TheBox from '@/components/TheBox.vue';
 
-const { init, gameRef } = useGame();
+const { init, gameRef, addBox } = useGame();
 
 onMounted(() => {
   init();
 });
+
+function handleBoxClick(index: number) {
+  addBox(index - 1);
+}
 </script>
 
 <template>
@@ -33,7 +37,7 @@ onMounted(() => {
         </svg>
       </div>
       <div class="players">
-        <div :key="i" v-for="i in [1, 2, 3]" class="player-box">
+        <div :key="i" v-for="i in [1, 2, 3]" class="player-box" @click="handleBoxClick(i)">
           <TheBox :box="gameRef.getBoxByPosition(i)" />
         </div>
       </div>
@@ -140,6 +144,16 @@ onMounted(() => {
   border-radius: 5px;
   padding: 2px;
   transform: translateY(10px);
+}
+
+.player-box:hover {
+  border: 2px dashed #ddd;
+  cursor: pointer;
+}
+
+.player-box:hover :deep(.box__add) {
+  color: #ddd;
+  border-color: #ddd;
 }
 
 .player-box:first-of-type {

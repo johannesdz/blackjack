@@ -47,7 +47,7 @@ const resultMessages = {
         />
       </div>
     </div>
-    <div class="sum">{{ hand.getDisplayValue() }}</div>
+    <div v-if="hand.getCards().length > 0" class="sum">{{ hand.getDisplayValue() }}</div>
     <template v-if="!hand.getBox().isDealer() && dealerFinalValueRef">
       <div :class="['result', `result--${hand.getResult(dealerFinalValueRef)}`]">
         {{ resultMessages[hand.getResult(dealerFinalValueRef)] }}

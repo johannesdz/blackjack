@@ -13,6 +13,7 @@ defineProps({
 
 <template>
   <div class="box">
+    <div v-if="!box" class="box__add">+</div>
     <template v-if="box">
       <TheHand
         v-for="(hand, i) in box.getHands()"
@@ -33,5 +34,25 @@ defineProps({
   width: 100%;
   height: 100%;
   gap: 80px;
+  position: relative;
+}
+
+.box__add {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: -15px auto;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #3b934b;
+  font-size: 30px;
+  line-height: 30px;
+  font-weight: 800;
+  border-radius: 50%;
+  color: #3b934b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

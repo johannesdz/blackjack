@@ -2,16 +2,27 @@ import { Game, Box, Hand } from '../models/game';
 import { ref, computed } from 'vue';
 
 const gameRef = ref(new Game([]));
+const boxesActive: boolean[] = [false, false, false];
 
 export function useGame() {
   async function init() {
-    const box1 = new Box(1);
-    const box2 = new Box(2);
-    const box3 = new Box(3);
-    const boxes = [box1, box2, box3];
+    const boxes: Box[] = [];
+    boxesActive.forEach((boxActive, i) => {
+      if (boxActive) {
+        boxes.push(new Box(i + 1));
+      }
+    });
+    if (!boxes.length) {
+      return;
+    }
     gameRef.value = new Game(boxes);
     await gameRef.value.init();
     next();
+  }
+
+  function addBox(index: number) {
+    boxesActive[index] = true;
+    init();
   }
 
   async function next() {
@@ -52,5 +63,5 @@ export function useGame() {
     return gameRef.value.getDealerBox().getHands()[0].getValue();
   });
 
-  return { init, gameRef, next, dealerFinalValueRef };
+  return { init, addBox, gameRef, next, dealerFinalValueRef };
 }
