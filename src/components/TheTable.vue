@@ -50,9 +50,29 @@ function handleBoxClick(index: number) {
     <br /><br />
     <strong>You will always lose money in the long run - gambling is not recommended.</strong>
     <br /><br />
+    <strong>Rules (currently European Style only)</strong>
+    <ul>
+      <li>4 or more decks</li>
+      <li>Dealer stands on soft 17</li>
+      <li>Double after split allowed</li>
+      <li>Surrender not allowed</li>
+      <li>No peek / No hole card</li>
+      <li>
+        Check rules:
+        <a
+          href="https://wizardofodds.com/games/blackjack/strategy/calculator/"
+          rel="noopener noreferrer"
+          target="_blank"
+        ></a>
+      </li>
+    </ul>
+
+    <br /><br />
     This is a private project to play around with some web technologies - feel free to checkout the
     code on
-    <a rel="noreferrer" href="https://github.com/johannesdz/blackjack" target="_blank">GitHub</a>
+    <a rel="noopener noreferrer" href="https://github.com/johannesdz/blackjack" target="_blank"
+      >GitHub</a
+    >
     <br /><br />
     <strong>Open todos:</strong>
     <ul>

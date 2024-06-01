@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { PropType } from 'vue';
-import type { Hand, PlayerAction } from '@/models/game';
-import { PLAYER_ACTIONS } from '@/models/game';
+import type { Hand } from '@/models/game';
+import type { PlayerAction } from '@/types/types';
+import { PLAYER_ACTIONS } from '@/utils/constants';
 import { useGame } from '@/composables/game';
 const { next, dealerFinalValueRef } = useGame();
 

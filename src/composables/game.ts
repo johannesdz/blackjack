@@ -21,8 +21,10 @@ export function useGame() {
   }
 
   function addBox(index: number) {
-    boxesActive[index] = true;
-    init();
+    if (!boxesActive[index]) {
+      boxesActive[index] = true;
+      init();
+    }
   }
 
   async function next() {

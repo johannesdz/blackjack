@@ -1,27 +1,5 @@
-export type PlayerAction = 'hit' | 'stand' | 'double' | 'split';
-export type CardSuite = 'clubs' | 'spades' | 'hearts' | 'diamonds';
-export type CardName =
-  | '0'
-  | '2'
-  | '3'
-  | '4'
-  | '5'
-  | '6'
-  | '7'
-  | '8'
-  | '9'
-  | '10'
-  | 'jack'
-  | 'queen'
-  | 'king'
-  | 'ace';
-
-export const PLAYER_ACTIONS: { [key: string]: PlayerAction } = {
-  HIT: 'hit',
-  STAND: 'stand',
-  DOUBLE: 'double',
-  SPLIT: 'split',
-};
+import { PLAYER_ACTIONS } from '@/utils/constants';
+import type { PlayerAction, CardSuite, CardName } from '@/types/types';
 
 const possibleSuites: CardSuite[] = ['clubs', 'spades', 'hearts', 'diamonds'];
 const possibleCards: CardName[] = [
