@@ -3,7 +3,7 @@ import type { PropType } from 'vue';
 import type { Hand } from '@/models/game';
 import type { PlayerAction } from '@/types/types';
 import { PLAYER_ACTIONS } from '@/utils/constants';
-import { useGame } from '@/composables/game';
+import { useGame } from '@/composables/useGame';
 const { next, dealerFinalValueRef } = useGame();
 
 const props = defineProps({

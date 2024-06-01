@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useGame } from '@/composables/game';
+import { useGame } from '@/composables/useGame';
 import TheBox from '@/components/TheBox.vue';
 
 const { init, gameRef, addBox } = useGame();
