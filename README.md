@@ -21,7 +21,6 @@ https://basic-strategy.netlify.app/
 
 ## Open todos:
 
-- Get feedback, if move was correct according to basic strategy
 - Allow different table settings like surrender, number of decks, dealer peek, double options,
   ...
 - Allow more training modes like train pairs, soft hands, weak hands and other szenarios

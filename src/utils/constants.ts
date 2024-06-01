@@ -119,7 +119,7 @@ export const RULES = {
       10: PLAYER_ACTIONS.STAND,
       11: PLAYER_ACTIONS.SPLIT,
     },
-    11: {
+    1: {
       2: PLAYER_ACTIONS.HIT,
       3: PLAYER_ACTIONS.HIT,
       4: PLAYER_ACTIONS.HIT,
@@ -232,7 +232,7 @@ export const RULES = {
       10: PLAYER_ACTIONS.STAND,
       11: PLAYER_ACTIONS.STAND,
     },
-    11: {
+    1: {
       3: PLAYER_ACTIONS.HIT,
       4: PLAYER_ACTIONS.HIT,
       5: PLAYER_ACTIONS.HIT,
@@ -416,7 +416,7 @@ export const RULES = {
       20: PLAYER_ACTIONS.STAND,
       21: PLAYER_ACTIONS.STAND,
     },
-    11: {
+    1: {
       5: PLAYER_ACTIONS.HIT,
       6: PLAYER_ACTIONS.HIT,
       7: PLAYER_ACTIONS.HIT,

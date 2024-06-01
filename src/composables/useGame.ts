@@ -45,6 +45,14 @@ export function useGame() {
       });
     });
     if (nextHand && (nextHand as Hand).getNextAction()) {
+      let dealerHardValue = 0;
+      gameRef.value
+        .getDealerBox()
+        .getHands()
+        .forEach((hand) => {
+          dealerHardValue += hand.getCardsHardValue();
+        });
+      await (nextHand as Hand).calculateCorrectAction(dealerHardValue);
       await (nextHand as Hand).action();
       next();
     } else if (!waitForInteraction) {

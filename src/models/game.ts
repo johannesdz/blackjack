@@ -1,4 +1,4 @@
-import { PLAYER_ACTIONS } from '@/utils/constants';
+import { PLAYER_ACTIONS, RULES } from '@/utils/constants';
 import type { PlayerAction, CardSuite, CardName } from '@/types/types';
 
 const possibleSuites: CardSuite[] = ['clubs', 'spades', 'hearts', 'diamonds'];
@@ -61,7 +61,7 @@ export class Game {
       for (const box of this.getPlayerBoxes()) {
         box.getHands()[0].addCard(cardName, cardSuite);
         // Test doubles
-        // box.getHands()[0].addCard('7');
+        // box.getHands()[0].addCard('5');
         await sleep();
       }
       this.getDealerBox().getHands()[0].addCard(cardName, cardSuite, isDealerCardVisible);
@@ -196,6 +196,7 @@ export class Hand {
   _isDouble: boolean = false;
   _isSplit: boolean = false;
   _nextAction: PlayerAction | null = null;
+  _nextCorrectAction: PlayerAction | null = null;
 
   constructor(box: Box) {
     this._box = box;
@@ -338,6 +339,14 @@ export class Hand {
     return this._nextAction;
   }
 
+  setNextCorrectAction(action: PlayerAction | null) {
+    this._nextCorrectAction = action;
+  }
+
+  getNextCorrectAction() {
+    return this._nextCorrectAction;
+  }
+
   setNextAction(action: PlayerAction | null) {
     this._nextAction = action;
   }
@@ -402,5 +411,42 @@ export class Hand {
       this.setNextAction(PLAYER_ACTIONS.HIT);
     }
     await sleep();
+  }
+
+  calculateNextCorrectAction(dealerHardValue: any) {
+    if (this.isSplitAllowed()) {
+      // @ts-ignore
+      return RULES.PAIR[dealerHardValue]?.[this.getCards()[0].getHardValue()];
+    }
+    if (this.getValue() !== this.getCardsHardValue()) {
+      // @ts-ignore
+      return RULES.SOFT[dealerHardValue]?.[this.getValue()];
+    }
+    if (this.getValue() > 16) {
+      return PLAYER_ACTIONS.STAND;
+    }
+    // @ts-ignore
+    return RULES.HARD[dealerHardValue]?.[this.getValue()];
+  }
+
+  async calculateCorrectAction(dealerHardValue: number) {
+    const nextAction = this.getNextAction();
+    if (!nextAction) {
+      return;
+    }
+
+    const nextCorrectAction = this.calculateNextCorrectAction(dealerHardValue);
+    if (!nextCorrectAction) {
+      // Something went wrong - output debug info
+      console.log('nextAction', dealerHardValue);
+      console.log('this.getValue()', this.getValue());
+      console.log('this.getCardsSoftValue()', this.getCardsSoftValue());
+      console.log('this.getCardsHardValue()', this.getCardsHardValue());
+      console.log('nextAction', nextAction);
+      console.log('nextCorrectAction', nextCorrectAction);
+    }
+    this.setNextCorrectAction(nextCorrectAction);
+    await sleep();
+    this.setNextCorrectAction(null);
   }
 }

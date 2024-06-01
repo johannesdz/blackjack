@@ -27,6 +27,25 @@ const resultMessages = {
   '0': 'Push 👊',
   '1': 'You win 🎉',
 };
+
+const actions = [
+  {
+    name: PLAYER_ACTIONS.HIT,
+    label: 'H',
+  },
+  {
+    name: PLAYER_ACTIONS.STAND,
+    label: 'S',
+  },
+  {
+    name: PLAYER_ACTIONS.DOUBLE,
+    label: 'DD',
+  },
+  {
+    name: PLAYER_ACTIONS.SPLIT,
+    label: 'SP',
+  },
+];
 </script>
 
 <template>
@@ -59,47 +78,33 @@ const resultMessages = {
         'actions',
         {
           'actions--disabled': hand.getNextAction(),
-          'actions--hidden': !hand.isReady() || !hand.isInteractionAllowed(),
+          'actions--hidden':
+            !hand.isReady() || (!hand.isInteractionAllowed() && !hand.getNextCorrectAction()),
         },
       ]"
     >
       <button
-        class="action"
-        @click="() => handleAction(PLAYER_ACTIONS.HIT)"
-        :title="PLAYER_ACTIONS.HIT"
-      >
-        H
-      </button>
-      <button
-        class="action"
-        @click="() => handleAction(PLAYER_ACTIONS.STAND)"
-        :title="PLAYER_ACTIONS.STAND"
-      >
-        S
-      </button>
-      <button
+        v-for="action in actions"
+        :key="action.name"
         :class="[
           'action',
           {
-            'action--disabled': !hand.isDoubleAllowed(),
+            'action--disabled':
+              (action.name === PLAYER_ACTIONS.DOUBLE && !hand.isDoubleAllowed()) ||
+              (action.name === PLAYER_ACTIONS.SPLIT && !hand.isSplitAllowed()),
+
+            'action--success':
+              hand.getNextCorrectAction() && hand.getNextCorrectAction() === action.name,
+            'action--alert':
+              hand.getNextCorrectAction() &&
+              hand.getNextCorrectAction() !== action.name &&
+              hand.getNextAction() === action.name,
           },
         ]"
-        @click="() => handleAction(PLAYER_ACTIONS.DOUBLE)"
-        :title="PLAYER_ACTIONS.DOUBLE"
+        @click="() => handleAction(action.name)"
+        :title="action.name"
       >
-        DD
-      </button>
-      <button
-        :class="[
-          'action',
-          {
-            'action--disabled': !hand.isSplitAllowed(),
-          },
-        ]"
-        @click="() => handleAction(PLAYER_ACTIONS.SPLIT)"
-        :title="PLAYER_ACTIONS.SPLIT"
-      >
-        SP
+        {{ action.label }}
       </button>
     </div>
   </div>
@@ -196,6 +201,19 @@ const resultMessages = {
   cursor: pointer;
   border: 0 none;
   box-shadow: 1px 1px 2px #111;
+}
+
+.action--alert {
+  background: rgb(202, 59, 59);
+}
+
+.action--success {
+  background: rgb(14, 152, 14);
+}
+
+.action--alert,
+.action--success {
+  animation: background 1.4s linear;
 }
 
 .action--disabled {

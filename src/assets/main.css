@@ -21,3 +21,14 @@ body {
 main {
   padding: 10px;
 }
+
+a,
+a:hover,
+a:active,
+a:visited {
+  color: #333;
+}
+
+a:hover {
+  text-decoration: none;
+}

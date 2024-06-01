@@ -58,25 +58,22 @@ function handleBoxClick(index: number) {
       <li>Surrender not allowed</li>
       <li>No peek / No hole card</li>
       <li>
-        Check rules:
         <a
           href="https://wizardofodds.com/games/blackjack/strategy/calculator/"
           rel="noopener noreferrer"
           target="_blank"
-        ></a>
+          >Check rules</a
+        >
       </li>
     </ul>
-
     <br /><br />
-    This is a private project to play around with some web technologies - feel free to checkout the
+    This is a private project to play around with some web technologies - feel free to check out the
     code on
     <a rel="noopener noreferrer" href="https://github.com/johannesdz/blackjack" target="_blank"
-      >GitHub</a
-    >
-    <br /><br />
+      >GitHub </a
+    ><br /><br />
     <strong>Open todos:</strong>
     <ul>
-      <li>Get feedback, if move was correct according to basic strategy</li>
       <li>
         Allow different table settings like surrender, number of decks, dealer peek, double options,
         ...
