@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RULES } from '@/utils/constants';
+import { RULES, RULE_TYPES } from '@/utils/constants';
 import { computed } from 'vue';
 import { useGame } from '@/composables/useGame';
 
@@ -29,82 +29,98 @@ const currentDealerValueRef = computed(() => {
 function handleCloseClick() {
   setHelpInfo(null);
 }
+
+const actionMapping: any = {
+  hit: 'hit',
+  stand: 'stand',
+  double: 'dbl',
+  split: 'split',
+};
 </script>
 
 <template>
-  <div class="rules" v-if="isHelpOpenRef">
-    <div class="rules__close-wrapper">
-      <button class="rules__close" @click="handleCloseClick">x</button>
-    </div>
-    <div v-for="(rule, i) in Object.keys(RULES)" :key="rule">
-      <table class="rules__table">
-        <tr v-if="i === 0">
-          <th class="rules__th">Pl.</th>
-          <th class="rules__th" colspan="10">Dealer</th>
-        </tr>
-        <tr>
-          <th class="rules__th">{{ rule }}</th>
-          <th class="rules__th" v-for="dealersCard in Object.keys(RULES[rule])" :key="dealersCard">
-            {{ dealersCard }}
-          </th>
-        </tr>
-        <template
-          v-for="dealersCard in Object.keys(Object.keys(RULES[rule])[0])[0]"
-          :key="dealersCard"
-        >
-          <tr
-            v-for="playersCard in Object.keys(RULES[rule][Object.keys(RULES[rule])[0]])"
-            :key="playersCard"
-          >
-            <th class="rules__th">
-              {{ rule === 'PAIR' ? `${playersCard}/${playersCard}` : '' }}
-              {{ rule === 'SOFT' ? `${Number(playersCard) - 10}/${playersCard}` : '' }}
-              {{ rule === 'HARD' ? `${playersCard}` : '' }}
-            </th>
-            <td
-              v-for="dealersCard2 in Object.keys(RULES[rule])"
-              :key="dealersCard2"
-              :class="[
-                'rules__td',
-                `rules__td--${RULES[rule][dealersCard2][playersCard]}`,
-                {
-                  'rules__td--active':
-                    currentRuleRef === rule &&
-                    (dealersCard2 === String(currentDealerValueRef) ||
-                      playersCard === String(currentPlayerValueRef)),
-                  'rules__td--active-exact':
-                    currentRuleRef === rule &&
-                    dealersCard2 === String(currentDealerValueRef) &&
-                    playersCard === String(currentPlayerValueRef),
-                },
-              ]"
-            >
-              {{ RULES[rule][dealersCard2][playersCard] }}
-            </td>
+  <div class="rules__wrapper" v-if="isHelpOpenRef">
+    <div class="rules">
+      <div class="rules__close-wrapper">
+        <button class="rules__close" @click="handleCloseClick">x</button>
+      </div>
+      <div v-for="(rule, i) in Object.keys(RULES)" :key="rule">
+        <table class="rules__table">
+          <tr v-if="i === 0">
+            <th class="rules__th">Pl.</th>
+            <th class="rules__th" colspan="10">Dealer</th>
           </tr>
-        </template>
-      </table>
+          <tr>
+            <th class="rules__th">{{ rule }}</th>
+            <th
+              class="rules__th"
+              v-for="dealersCard in Object.keys(RULES[rule])"
+              :key="dealersCard"
+            >
+              {{ dealersCard }}
+            </th>
+          </tr>
+          <template
+            v-for="dealersCard in Object.keys(Object.keys(RULES[rule])[0])[0]"
+            :key="dealersCard"
+          >
+            <tr
+              v-for="playersCard in Object.keys(RULES[rule][Object.keys(RULES[rule])[0]])"
+              :key="playersCard"
+            >
+              <th class="rules__th">
+                {{ rule === RULE_TYPES.PAIR ? `${playersCard}/${playersCard}` : '' }}
+                {{ rule === RULE_TYPES.SOFT ? `${Number(playersCard) - 10}/${playersCard}` : '' }}
+                {{ rule === RULE_TYPES.HARD ? `${playersCard}` : '' }}
+              </th>
+              <td
+                v-for="dealersCard2 in Object.keys(RULES[rule])"
+                :key="dealersCard2"
+                :class="[
+                  'rules__td',
+                  `rules__td--${RULES[rule][dealersCard2][playersCard]}`,
+                  {
+                    'rules__td--active':
+                      currentRuleRef === rule &&
+                      (dealersCard2 === String(currentDealerValueRef) ||
+                        playersCard === String(currentPlayerValueRef)),
+                    'rules__td--active-exact':
+                      currentRuleRef === rule &&
+                      dealersCard2 === String(currentDealerValueRef) &&
+                      playersCard === String(currentPlayerValueRef),
+                  },
+                ]"
+              >
+                {{ actionMapping[RULES[rule][dealersCard2][playersCard]] }}
+              </td>
+            </tr>
+          </template>
+        </table>
+      </div>
     </div>
   </div>
 </template>
 
 <style>
-.rules {
+.rules__wrapper {
   top: 0;
   bottom: 0;
-  margin-top: 10px;
   background: #fff;
   border-radius: 10px;
-  padding: 10px 0px;
+  padding: 0;
   color: #333;
   position: fixed;
+  max-height: 100vh;
   z-index: 10;
   overflow: auto;
-  padding: 10px 10px;
-  max-width: 410px;
+  max-width: 430px;
   min-width: 320px;
   width: 100%;
   margin: 0 auto;
+}
+
+.rules {
+  padding: 10px 10px 20px 10px;
 }
 
 .rules__close-wrapper {
@@ -118,7 +134,6 @@ function handleCloseClick() {
   align-items: center;
   z-index: 20;
   opacity: 0.8;
-
   position: fixed;
   max-width: 410px;
   min-width: 320px;
@@ -143,11 +158,12 @@ function handleCloseClick() {
 }
 
 @media only screen and (min-width: 1400px) {
-  .rules {
+  .rules__wrapper {
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 440px;
     bottom: auto;
+    max-height: calc(100vh - 20px);
   }
 
   .rules__close-wrapper {
@@ -156,17 +172,22 @@ function handleCloseClick() {
 }
 
 @media only screen and (max-width: 500px) {
-  .rules {
+  .rules__wrapper {
     left: 0;
     right: 0;
     width: 100%;
     max-width: none;
-    padding: 0;
   }
 
   .rules__close-wrapper {
     width: 100%;
+    right: 10px;
     max-width: none;
+  }
+
+  .rules {
+    padding: 0;
+    padding: 10px 2px;
   }
 }
 

@@ -7,10 +7,16 @@ export const PLAYER_ACTIONS: { [key: string]: PlayerAction } = {
   SPLIT: 'split',
 };
 
+export const RULE_TYPES = {
+  PAIR: 'PAIR',
+  SOFT: 'SOFT',
+  HARD: 'HARD',
+};
+
 // According to: https://wizardofodds.com/games/blackjack/strategy/calculator/
 // deck: 4 or more, soft 17: dealer stands, double after split: allowed, surrender: not alloed, dealer peek: no peek / no hole card
 export const RULES: any = {
-  PAIR: {
+  [RULE_TYPES.PAIR]: {
     2: {
       2: PLAYER_ACTIONS.SPLIT,
       3: PLAYER_ACTIONS.SPLIT,
@@ -132,7 +138,7 @@ export const RULES: any = {
       11: PLAYER_ACTIONS.HIT,
     },
   },
-  SOFT: {
+  [RULE_TYPES.SOFT]: {
     2: {
       13: PLAYER_ACTIONS.HIT,
       14: PLAYER_ACTIONS.HIT,
@@ -244,7 +250,7 @@ export const RULES: any = {
       21: PLAYER_ACTIONS.STAND,
     },
   },
-  HARD: {
+  [RULE_TYPES.HARD]: {
     2: {
       5: PLAYER_ACTIONS.HIT,
       6: PLAYER_ACTIONS.HIT,

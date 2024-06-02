@@ -1,4 +1,4 @@
-import { PLAYER_ACTIONS, RULES } from '@/utils/constants';
+import { PLAYER_ACTIONS, RULES, RULE_TYPES } from '@/utils/constants';
 import type { PlayerAction, CardSuite, CardName } from '@/types/types';
 
 const possibleSuites: CardSuite[] = ['clubs', 'spades', 'hearts', 'diamonds'];
@@ -61,7 +61,7 @@ export class Game {
       for (const box of this.getPlayerBoxes()) {
         box.getHands()[0].addCard(cardName, cardSuite);
         // Test doubles
-        // box.getHands()[0].addCard('5');
+        // box.getHands()[0].addCard('king');
         await sleep();
       }
       this.getDealerBox().getHands()[0].addCard(cardName, cardSuite, isDealerCardVisible);
@@ -415,24 +415,26 @@ export class Hand {
 
   calculateNextCorrectActionRule() {
     if (this.isSplitAllowed()) {
-      return 'PAIR';
+      return RULE_TYPES.PAIR;
     }
     if (this.getValue() !== this.getCardsHardValue()) {
-      return 'SOFT';
+      return RULE_TYPES.SOFT;
     }
-    return 'HARD';
+    return RULE_TYPES.HARD;
   }
 
   calculateNextCorrectActionPlayerValue() {
     const rule = this.calculateNextCorrectActionRule();
-    if (rule === 'PAIR') {
+    if (rule === RULE_TYPES.PAIR) {
       return this.getCards()[0].getHardValue();
     }
     return this.getValue();
   }
 
   calculateNextCorrectAction(dealerHardValue: any) {
-    return RULES.HARD[dealerHardValue]?.[this.calculateNextCorrectActionPlayerValue()];
+    return RULES[this.calculateNextCorrectActionRule()][dealerHardValue]?.[
+      this.calculateNextCorrectActionPlayerValue()
+    ];
   }
 
   async calculateCorrectAction(dealerHardValue: number) {
